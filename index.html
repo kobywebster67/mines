@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Make Money Co</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    :root {
+      --bg: #0f1720;
+      --panel: rgba(255,255,255,0.04);
+      --accent: #ffd43b;
+      --text-light: #cfe6ff;
+      --text-muted: #8fa9cb;
+      --btn-bg: #22272b;
+      --btn-hover: #444b52;
+      --green-1: #28a745;
+      --green-2: #218838;
+      --font-primary: 'Poppins', system-ui, Segoe UI, Roboto, Arial, sans-serif;
+      --font-display: 'Bungee', cursive;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(1200px 500px at 10% 10%, rgba(255,215,0,0.03), transparent 10%),
+        radial-gradient(800px 400px at 90% 80%, rgba(0,200,255,0.02), transparent 10%),
+        linear-gradient(180deg, var(--bg), #050608);
+      font-family: var(--font-primary);
+      color: var(--text-light);
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      width: 420px;
+      max-width: 96vw;
+      background: var(--panel);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.7);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    h1 {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      margin: 0;
+      color: var(--accent);
+      text-shadow: 0 6px 20px rgba(0,0,0,0.6);
+    }
+    .balance {
+      text-align: right;
+      font-size: 1.1rem;
+      user-select: none;
+    }
+    .balance span {
+      font-weight: 700;
+      font-size: 1.5rem;
+      display: block;
+      margin-top: 4px;
+    }
+    
+    /* Tabs */
+    nav.tabs {
+      display: flex;
+      gap: 6px;
+      border-bottom: 1.5px solid rgba(255,255,255,0.1);
+    }
+    nav.tabs button {
+      flex: 1;
+      background: var(--btn-bg);
+      border: none;
+      padding: 10px 0;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.9rem;
+      border-radius: 8px 8px 0 0;
+      transition: background-color 0.3s, color 0.3s;
+      user-select: none;
+    }
+    nav.tabs button.active {
+      background: var(--accent);
+      color: #081219;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      border-bottom: none;
+    }
+    
+    /* Sections */
+    section {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+    }
+    section.active {
+      display: flex;
+    }
+    
+    /* Clicker Section */
+    #clicker-section {
+      text-align: center;
+    }
+    #money-bag {
+      margin: 20px auto 16px;
+      width: 140px;
+      height: 140px;
+      background: linear-gradient(145deg, #3a3a3a, #252525);
+      border-radius: 50%;
+      box-shadow: inset 0 6px 15px #ffcf52, 0 4px 15px rgba(255, 208, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 70px;
+      color: #ffcf52;
+      cursor: pointer;
+      position: relative;
+      user-select: none;
+    }
+    #money-bag:hover {
+      box-shadow: inset 0 6px 18px #ffd64d, 0 6px 24px rgba(255, 215, 0, 0.8);
+      transform: scale(1.05);
+      transition: 0.15s ease;
+    }
+    
+    #coins-info {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    #cpc-info {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+    }
+    
+    #upgrades {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 260px;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+    .upgrade {
+      background: var(--btn-bg);
+      border-radius: 10px;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+    .upgrade:hover:not(.disabled) {
+      background: var(--btn-hover);
+    }
+    .upgrade.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .upgrade-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .upgrade-info {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-left: 8px;
+      flex-grow: 1;
+      text-align: center;
+    }
+    .upgrade-cost {
+      font-weight: 700;
+      min-width: 70px;
+      text-align: right;
+      font-size: 0.9rem;
+      color: var(--accent);
+    }
+    
+    #rebirth-btn {
+      margin-top: 14px;
+      padding: 10px 18px;
+      font-weight: 700;
+      font-size: 1rem;
+      background: linear-gradient(180deg, var(--green-1), var(--green-2));
+      border: none;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+      transition: filter 0.2s;
+    }
+    #rebirth-btn:disabled {
+      filter: grayscale(70%);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+    
+    /* Gambling Section */
+    #gambling-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .gambling-tabs {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .gambling-tabs button {
+      flex: 1;
+      background: var(--btn-bg);
+      border: none;
+      padding: 8px 0;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.9rem;
+      border-radius: 10px;
+      user-select: none;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .gambling-tabs button.active {
+      background: var(--accent);
+      color: #081219;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    }
+    
+    /* Slot Machine */
+    #slot-machine-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      text-align: center;
+    }
+    #slot-reels {
+      font-size: 50px;
+      letter-spacing: 18px;
+      margin: 10px 0;
+      user-select: none;
+    }
+    #slot-reward {
+      font-weight: 700;
+      font-size: 1.1rem;
+      min-height: 30px;
+      color: var(--accent);
+      user-select: none;
+    }
+    #slot-bet {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      background: var(--btn-bg);
+      color: var(--text-light);
+      font-size: 1rem;
+      margin-bottom: 10px;
+      text-align: center;
+      user-select: none;
+    }
+    #slot-spin-btn {
+      padding: 12px;
+      font-weight: 700;
+      background: linear-gradient(180deg, var(--green-1), var(--green-2));
+      border: none;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+      transition: filter 0.2s;
+    }
+    #slot-spin-btn:disabled {
+      filter: grayscale(70%);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+    
+    /* Mines Gem Game */
+    #mines-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      user-select: none;
+    }
+    #mines-controls {
+      display: flex;
+      gap: 8px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    #mines-bet {
+      flex: 1;
+      padding: 8px;
+      border-radius: 8px;
+      border: none;
+      background: var(--btn-bg);
+      color: var(--text-light);
+      font-size: 1rem;
+      text-align: center;
+    }
+    #mines-mode {
+      flex: 1;
+      padding: 8px;
+      border-radius: 8px;
+      border: none;
+      background: var(--btn-bg);
+      color: var(--text-light);
+      font-size: 1rem;
+      user-select: none;
+    }
+    #mines-start-btn, #mines-cashout-btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      font-weight: 700;
+      font-size: 1rem;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+      transition: filter 0.2s;
+    }
+    #mines-start-btn {
+      background: linear-gradient(180deg, var(--green-1), var(--green-2));
+    }
+    #mines-cashout-btn {
+      background: #555;
+    }
+    #mines-start-btn:disabled,
+    #mines-cashout-btn:disabled {
+      filter: grayscale(70%);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+    
+    #mines-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 50px);
+      grid-gap: 8px;
+      justify-content: center;
+    }
+    .mines-cell {
+      width: 50px;
+      height: 50px;
+      background: var(--btn-bg);
+      border-radius: 8px;
+      font-size: 28px;
+      color: var(--text-light);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      transition: background-color 0.3s;
+      border: 2px solid transparent;
+      font-weight: 700;
+    }
+    .mines-cell:hover:not(.revealed) {
+      background: var(--btn-hover);
+    }
+    .mines-cell.revealed.gem {
+      background: #ffd43b;
+      color: #3a2e00;
+      cursor: default;
+    }
+    .mines-cell.revealed.bomb {
+      background: #ff5050;
+      color: #400000;
+      cursor: default;
+    }
+    
+    #mines-stats {
+      font-size: 0.9rem;
+      text-align: center;
+      color: var(--text-muted);
+      user-select: none;
+      margin-top: 6px;
+    }
+    #mines-stats span {
+      font-weight: 600;
+      color: var(--accent);
+    }
+    
+    /* Toast */
+    #toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.75);
+      color: white;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-20px);
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 9999;
+      user-select: none;
+    }
+    #toast.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+    
+    /* Scrollbar for upgrades */
+    #upgrades::-webkit-scrollbar {
+      width: 8px;
+    }
+    #upgrades::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    #upgrades::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 4px;
+    }
+
+    /* Fine print */
+    #footer {
+      text-align: right;
+      font-size: 10px;
+      color: var(--text-muted);
+      user-select: none;
+      margin-top: 6px;
+      font-style: italic;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container" role="main" aria-label="Make Money Co game">
+
+    <header>
+      <h1>Make Money Co</h1>
+      <div class="balance" aria-live="polite" aria-atomic="true">
+        Bank: $<span id="balance">0.00</span>
+      </div>
+    </header>
+
+    <nav class="tabs" role="tablist" aria-label="Game sections">
+      <button role="tab" aria-selected="true" aria-controls="clicker-section" id="tab-clicker" class="active">Clicker</button>
+      <button role="tab" aria-selected="false" aria-controls="gambling-section" id="tab-gambling">Gambling</button>
+      <button role="tab" aria-selected="false" aria-controls="info-section" id="tab-info">Info</button>
+    </nav>
+
+    <!-- CLICKER SECTION -->
+    <section id="clicker-section" class="active" role="tabpanel" aria-labelledby="tab-clicker">
+      <div id="money-bag" aria-label="Money bag, click to earn coins" tabindex="0" role="button" title="Click to earn coins">💰</div>
+      <div id="coins-info" aria-live="polite" aria-atomic="true">Coins Earned: <span id="coins">0.00</span></div>
+      <div id="cpc-info">Coins Per Click: <span id="cpc">1.00</span></div>
+      <div id="upgrades" aria-label="Upgrades list"></div>
+      <button id="rebirth-btn" disabled aria-disabled="true" title="Rebirth to double your coins per click">Rebirth (requires $1,000,000,000)</button>
+    </section>
+
+    <!-- GAMBLING SECTION -->
+    <section id="gambling-section" role="tabpanel" aria-labelledby="tab-gambling" aria-hidden="true">
+      <nav class="gambling-tabs" role="tablist" aria-label="Gambling games">
+        <button id="slot-btn" class="active" role="tab" aria-selected="true" aria-controls="slot-machine-container" tabindex="0">Slot Machine</button>
+        <button id="mines-btn" role="tab" aria-selected="false" aria-controls="mines-container" tabindex="-1">Mines Gem Game</button>
+      </nav>
+
+      <!-- Slot Machine -->
+      <div id="slot-machine-container" role="tabpanel" aria-labelledby="slot-btn">
+        <input id="slot-bet" type="number" min="50" step="1" value="50" aria-label="Slot machine bet amount" />
+        <button id="slot-spin-btn" aria-live="polite" aria-atomic="true">Spin 🎰</button>
+        <div id="slot-reels" aria-live="polite" aria-atomic="true" aria-label="Slot reels display">🍒 🍋 🍉</div>
+        <div id="slot-reward" aria-live="polite" aria-atomic="true" style="min-height: 30px;"></div>
+      </div>
+
+      <!-- Mines Gem Game -->
+      <div id="mines-container" role="tabpanel" aria-labelledby="mines-btn" style="display:none;">
+        <div id="mines-controls">
+          <input id="mines-bet" type="number" min="1" step="1" value="10" aria-label="Mines game bet amount" />
+          <select id="mines-mode" aria-label="Number of bombs">
+            <option value="1">1 Bomb</option>
+            <option value="2">2 Bombs</option>
+            <option value="3">3 Bombs</option>
+          </select>
+          <button id="mines-start-btn">Start</button>
+          <button id="mines-cashout-btn" disabled>Cash Out</button>
+        </div>
+        <div id="mines-grid" aria-label="Mines grid" role="grid" aria-readonly="true"></div>
+        <div id="mines-stats" aria-live="polite" aria-atomic="true">
+          Gems Found: <span id="mines-gems">0</span> &nbsp;|&nbsp; Multiplier: <span id="mines-multiplier">1.00x</span> &nbsp;|&nbsp; Potential Win: $<span id="mines-money">0.00</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- INFO SECTION -->
+    <section id="info-section" role="tabpanel" aria-labelledby="tab-info" aria-hidden="true" style="color: var(--text-muted); font-size: 0.9rem;">
+      <p><strong>Make Money Co</strong> - Created by Koby Webster</p>
+      <p>This game combines a coin clicker, slot machine, and mines gem game — all sharing one bank balance.</p>
+      <p>Earn coins by clicking, gamble them, upgrade your clicks, and rebirth to progress faster.</p>
+      <hr />
+      <p><strong>Rebirth</strong> lets you reset progress in exchange for doubling your coins per click permanently.</p>
+      <p>At 1 Billion coins, you can rebirth to double your coins per click permanently.</p>
+      <p>Keep rebirthing to grow faster!</p>
+    </section>
+
+    <div id="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
+    <div id="footer">Made By Koby Webster</div>
+  </div>
+
+  <script>
+    // === Shared bank and utility ===
+    let balance = 0;
+    const balanceEl = document.getElementById('balance');
+    function updateBalance(amountChange=0) {
+      balance += amountChange;
+      if(balance < 0) balance = 0;
+      balanceEl.textContent = balance.toFixed(2);
+      updateUpgradeButtons();
+      updateRebirthButton();
+      updateSlotBet();
+      updateMinesBet();
+    }
+
+    // === TOAST ===
+    const toast = document.getElementById('toast');
+    let toastTimeout;
+    function showToast(msg, duration=2000) {
+      clearTimeout(toastTimeout);
+      toast.textContent = msg;
+      toast.classList.add('show');
+      toastTimeout = setTimeout(() => toast.classList.remove('show'), duration);
+    }
+
+    // === TABS ===
+    const tabs = document.querySelectorAll('nav.tabs button');
+    const sections = document.querySelectorAll('section[role="tabpanel"]');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+          document.getElementById(t.getAttribute('aria-controls')).setAttribute('aria-hidden', 'true');
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        document.getElementById(tab.getAttribute('aria-controls')).setAttribute('aria-hidden', 'false');
+        document.getElementById(tab.getAttribute('aria-controls')).classList.add('active');
+        sections.forEach(s => {
+          if(s.id !== tab.getAttribute('aria-controls')) s.classList.remove('active');
+        });
+      });
+    });
+
+    // === CLICKER SECTION ===
+    let coins = 0;
+    let coinsPerClick = 1;
+    const coinsEl = document.getElementById('coins');
+    const cpcEl = document.getElementById('cpc');
+    const moneyBag = document.getElementById('money-bag');
+    const upgradesContainer = document.getElementById('upgrades');
+    const rebirthBtn = document.getElementById('rebirth-btn');
+
+    // Upgrades data
+    const upgradesData = [
+      { name: 'Small Tip', baseCost: 15, cost: 15, cpcIncrease: 1, level: 0 },
+      { name: 'Wallet Upgrade', baseCost: 60, cost: 60, cpcIncrease: 5, level: 0 },
+      { name: 'Coin Press', baseCost: 250, cost: 250, cpcIncrease: 15, level: 0 },
+      { name: 'Gold Miner', baseCost: 1200, cost: 1200, cpcIncrease: 50, level: 0 },
+      { name: 'Bank Vault', baseCost: 5000, cost: 5000, cpcIncrease: 120, level: 0 },
+      { name: 'Fortune Wheel', baseCost: 25000, cost: 25000, cpcIncrease: 400, level: 0 },
+      { name: 'Money Factory', baseCost: 150000, cost: 150000, cpcIncrease: 900, level: 0 },
+      { name: 'Bitcoin Miner', baseCost: 800000, cost: 800000, cpcIncrease: 2500, level: 0 },
+      { name: 'Diamond Mine', baseCost: 5000000, cost: 5000000, cpcIncrease: 8000, level: 0 },
+      { name: 'Rebirth Lab', baseCost: 1000000000, cost: 1000000000, cpcIncrease: 0, level: 0, special:true }
+    ];
+
+    // Build upgrade buttons
+    function buildUpgrades() {
+      upgradesContainer.innerHTML = '';
+      upgradesData.forEach((upg, i) => {
+        const div = document.createElement('div');
+        div.className = 'upgrade';
+        div.dataset.idx = i;
+        div.setAttribute('tabindex', '0');
+        if(upg.cost > balance) div.classList.add('disabled');
+
+        div.innerHTML = `
+          <div class="upgrade-name">${upg.name}${upg.special ? ' (Rebirth)' : ''}</div>
+          <div class="upgrade-info">${upg.level > 0 ? 'Level ' + upg.level : ''}</div>
+          <div class="upgrade-cost">$${upg.cost.toLocaleString()}</div>
+        `;
+
+        div.addEventListener('click', () => buyUpgrade(i));
+        div.addEventListener('keydown', e => {
+          if(e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            buyUpgrade(i);
+          }
+        });
+
+        upgradesContainer.appendChild(div);
+      });
+    }
+
+    function updateUpgradeButtons() {
+      const upgradeDivs = upgradesContainer.querySelectorAll('.upgrade');
+      upgradeDivs.forEach(div => {
+        const i = +div.dataset.idx;
+        const upg = upgradesData[i];
+        if(upg.cost > balance) div.classList.add('disabled');
+        else div.classList.remove('disabled');
+
+        // Update level & cost text:
+        div.querySelector('.upgrade-info').textContent = upg.level > 0 ? 'Level ' + upg.level : '';
+        div.querySelector('.upgrade-cost').textContent = `$${upg.cost.toLocaleString()}`;
+      });
+    }
+
+    function buyUpgrade(i) {
+      const upg = upgradesData[i];
+      if(balance < upg.cost) {
+        showToast("Not enough balance for " + upg.name);
+        return;
+      }
+      if(upg.special) {
+        // Rebirth lab can only be bought once, handled separately
+        showToast("Buy the Rebirth button below to rebirth!");
+        return;
+      }
+      balance -= upg.cost;
+      updateBalance(0);
+      coinsPerClick += upg.cpcIncrease;
+      // coins += 0; // no longer tracked separately
+      upg.level++;
+      upg.cost = Math.floor(upg.baseCost * Math.pow(1.7, upg.level));
+      showToast(`${upg.name} upgraded to level ${upg.level}`);
+      updateCPC();
+      buildUpgrades();
+    }
+
+    function updateCPC() {
+      cpcEl.textContent = coinsPerClick.toFixed(2);
+    }
+
+    moneyBag.addEventListener('click', () => {
+      // Add coinsPerClick directly to balance now
+      updateBalance(coinsPerClick);
+      coins += coinsPerClick; // keep total coins for display
+      coinsEl.textContent = coins.toFixed(2);
+    });
+    moneyBag.addEventListener('keydown', e => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        moneyBag.click();
+      }
+    });
+
+    // Rebirth logic
+    rebirthBtn.addEventListener('click', () => {
+      if(balance < 1_000_000_000) {
+        showToast("Need 1,000,000,000 coins to rebirth");
+        return;
+      }
+      balance = 0;
+      coins = 0;
+      coinsPerClick *= 2;
+      upgradesData.forEach(upg => {
+        upg.level = 0;
+        upg.cost = upg.baseCost;
+      });
+      updateBalance(0);
+      coinsEl.textContent = coins.toFixed(2);
+      updateCPC();
+      buildUpgrades();
+      showToast("Rebirth successful! CPC doubled.");
+      updateRebirthButton();
+    });
+
+    function updateRebirthButton() {
+      if(balance >= 1_000_000_000) {
+        rebirthBtn.disabled = false;
+        rebirthBtn.setAttribute('aria-disabled', 'false');
+      } else {
+        rebirthBtn.disabled = true;
+        rebirthBtn.setAttribute('aria-disabled', 'true');
+      }
+    }
+
+    // === SLOT MACHINE ===
+    const slotBetInput = document.getElementById('slot-bet');
+    const slotSpinBtn = document.getElementById('slot-spin-btn');
+    const slotReels = document.getElementById('slot-reels');
+    const slotReward = document.getElementById('slot-reward');
+
+    const slotSymbols = ['🍒', '🍋', '🍉', '⭐', '💎', '7️⃣'];
+    const slotSymbolWeights = [30, 25, 20, 15, 8, 2]; // relative freq weights
+
+    function weightedRandomSymbol() {
+      const totalWeight = slotSymbolWeights.reduce((a,b) => a+b, 0);
+      let rand = Math.random() * totalWeight;
+      for(let i=0; i<slotSymbols.length; i++) {
+        if(rand < slotSymbolWeights[i]) return slotSymbols[i];
+        rand -= slotSymbolWeights[i];
+      }
+      return slotSymbols[0];
+    }
+
+    function updateSlotBet() {
+      let val = Number(slotBetInput.value);
+      if(isNaN(val) || val < 50) val = 50;
+      if(val > balance) val = balance;
+      slotBetInput.value = val;
+      slotSpinBtn.disabled = val > balance;
+    }
+    slotBetInput.addEventListener('input', updateSlotBet);
+
+    slotSpinBtn.addEventListener('click', () => {
+      let bet = Number(slotBetInput.value);
+      if(bet > balance) {
+        showToast("Not enough balance");
+        return;
+      }
+      balance -= bet;
+      updateBalance(0);
+      slotSpinBtn.disabled = true;
+      slotReward.textContent = '';
+      slotReels.textContent = '❓ ❓ ❓';
+
+      // Animate reels cycling for 1.5s
+      let iterations = 30;
+      let i = 0;
+      const spinInterval = setInterval(() => {
+        slotReels.textContent =
+          `${weightedRandomSymbol()} ${weightedRandomSymbol()} ${weightedRandomSymbol()}`;
+        i++;
+        if(i >= iterations) {
+          clearInterval(spinInterval);
+          const results = slotReels.textContent.split(' ');
+          const payout = calculateSlotPayout(results, bet);
+          if(payout > 0) {
+            balance += payout;
+            updateBalance(0);
+            slotReward.textContent = `You won $${payout.toFixed(2)}! 🎉`;
+          } else {
+            slotReward.textContent = "No win, try again!";
+          }
+          slotSpinBtn.disabled = false;
+        }
+      }, 50);
+    });
+
+    // Simple payout rules:
+    // 3x 7️⃣ = 100x bet
+    // 3x 💎 = 50x bet
+    // 3x ⭐ = 25x bet
+    // 3x 🍉 = 10x bet
+    // 3x 🍋 = 5x bet
+    // 3x 🍒 = 3x bet
+    // 2x any symbol = 0.5x bet
+    // else 0
+    function calculateSlotPayout(results, bet) {
+      const [a,b,c] = results;
+      if(a === b && b === c) {
+        switch(a) {
+          case '7️⃣': return bet * 100;
+          case '💎': return bet * 50;
+          case '⭐': return bet * 25;
+          case '🍉': return bet * 10;
+          case '🍋': return bet * 5;
+          case '🍒': return bet * 3;
+        }
+      }
+      if(a === b || b === c || a === c) return bet * 0.5;
+      return 0;
+    }
+
+    // === MINES GEM GAME ===
+    const minesBetInput = document.getElementById('mines-bet');
+    const minesModeSelect = document.getElementById('mines-mode');
+    const minesStartBtn = document.getElementById('mines-start-btn');
+    const minesCashoutBtn = document.getElementById('mines-cashout-btn');
+    const minesGrid = document.getElementById('mines-grid');
+    const minesGemsEl = document.getElementById('mines-gems');
+    const minesMultEl = document.getElementById('mines-multiplier');
+    const minesMoneyEl = document.getElementById('mines-money');
+
+    const MINES_SIZE = 25;
+    let minesCells = [];
+    let bombPositions = new Set();
+    let gemsFound = 0;
+    let minesBet = 10;
+    let minesGameOver = true;
+    let minesMultipliers = [];
+    
+    const minesMultipliersMap = {
+      1: [1.1,1.2,1.3,1.5,1.7,1.9,2.1,2.3,2.6,3,3.3,3.7,4.2,4.8,5.5,6.3,7.2,8.2,9.3,10.5],
+      2: [1.3,1.5,1.7,1.9,2.2,2.5,3,3.5,4,4.5,5,5.7,6.5,7.5,8.5,9.7,11,12.5,14,16],
+      3: [1.5,2,2.3,2.8,3.5,4.5,7,10,12,14,16,18,20,23,26,29,33,37,42,48]
+    };
+
+    function resetMinesGrid() {
+      minesGrid.innerHTML = '';
+      minesCells = [];
+      for(let i=0; i<MINES_SIZE; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'mines-cell';
+        cell.dataset.idx = i;
+        cell.setAttribute('role', 'button');
+        cell.setAttribute('tabindex', '0');
+        cell.addEventListener('click', () => revealMinesCell(i));
+        cell.addEventListener('keydown', e => {
+          if(e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            revealMinesCell(i);
+          }
+        });
+        minesGrid.appendChild(cell);
+        minesCells.push(cell);
+      }
+    }
+
+    function startMinesGame() {
+      let bet = Number(minesBetInput.value);
+      if(isNaN(bet) || bet < 1) {
+        showToast('Enter a valid bet (min 1)');
+        return;
+      }
+      if(bet > balance) {
+        showToast('Not enough balance');
+        return;
+      }
+      minesBet = bet;
+      balance -= bet;
+      updateBalance(0);
+
+      gemsFound = 0;
+      minesGameOver = false;
+      minesCashoutBtn.disabled = true;
+      minesMultipliers = minesMultipliersMap[ Number(minesModeSelect.value) ] || minesMultipliersMap[1];
+
+      // Place bombs
+      bombPositions.clear();
+      const bombsCount = Number(minesModeSelect.value);
+      while(bombPositions.size < bombsCount) {
+        bombPositions.add(Math.floor(Math.random() * MINES_SIZE));
+      }
+
+      resetMinesGrid();
+      updateMinesStats();
+      showToast('Mines game started!');
+
+      minesStartBtn.disabled = true;
+    }
+
+    function revealMinesCell(idx) {
+      if(minesGameOver) return;
+      const cell = minesCells[idx];
+      if(!cell || cell.classList.contains('revealed')) return;
+
+      cell.classList.add('revealed');
+      if(bombPositions.has(idx)) {
+        cell.classList.add('bomb');
+        cell.textContent = '💣';
+
+        // reveal all bombs
+        bombPositions.forEach(b => {
+          if(b === idx) return;
+          const c = minesCells[b];
+          if(c && !c.classList.contains('revealed')) {
+            c.classList.add('revealed', 'bomb');
+            c.textContent = '💣';
+          }
+        });
+
+        minesGameOver = true;
+        minesCashoutBtn.disabled = true;
+        minesStartBtn.disabled = false;
+        showToast('Boom! You hit a bomb — bet lost 💥', 3000);
+      } else {
+        cell.classList.add('gem');
+        cell.textContent = '💎';
+        gemsFound++;
+        updateMinesStats();
+        minesCashoutBtn.disabled = false;
+      }
+    }
+
+    function updateMinesStats() {
+      minesGemsEl.textContent = gemsFound;
+      const idx = Math.min(gemsFound - 1, minesMultipliers.length -1);
+      const mult = gemsFound > 0 ? minesMultipliers[idx] : 1;
+      minesMultEl.textContent = mult.toFixed(2) + 'x';
+      minesMoneyEl.textContent = (minesBet * mult).toFixed(2);
+    }
+
+    function cashOutMines() {
+      if(minesGameOver) return;
+      if(gemsFound === 0) {
+        showToast('No gems found to cash out');
+        return;
+      }
+      const idx = Math.min(gemsFound - 1, minesMultipliers.length -1);
+      const mult = minesMultipliers[idx];
+      const winnings = minesBet * mult;
+      balance += winnings;
+      updateBalance(0);
+      showToast(`Cashed out $${winnings.toFixed(2)} — nice!`, 3000);
+      minesGameOver = true;
+      minesCashoutBtn.disabled = true;
+      minesStartBtn.disabled = false;
+    }
+
+    function updateMinesBet() {
+      let val = Number(minesBetInput.value);
+      if(isNaN(val) || val < 1) val = 1;
+      if(val > balance) val = balance;
+      minesBetInput.value = val;
+      minesStartBtn.disabled = val > balance || !minesGameOver;
+    }
+
+    minesBetInput.addEventListener('input', updateMinesBet);
+
+    minesStartBtn.addEventListener('click', startMinesGame);
+    minesCashoutBtn.addEventListener('click', cashOutMines);
+
+    // Switch between slot and mines tabs inside gambling section
+    const slotBtn = document.getElementById('slot-btn');
+    const minesBtn = document.getElementById('mines-btn');
+    const slotContainer = document.getElementById('slot-machine-container');
+    const minesContainer = document.getElementById('mines-container');
+
+    slotBtn.addEventListener('click', () => {
+      slotBtn.classList.add('active');
+      slotBtn.setAttribute('aria-selected', 'true');
+      slotBtn.setAttribute('tabindex', '0');
+      minesBtn.classList.remove('active');
+      minesBtn.setAttribute('aria-selected', 'false');
+      minesBtn.setAttribute('tabindex', '-1');
+      slotContainer.style.display = 'flex';
+      minesContainer.style.display = 'none';
+    });
+    minesBtn.addEventListener('click', () => {
+      minesBtn.classList.add('active');
+      minesBtn.setAttribute('aria-selected', 'true');
+      minesBtn.setAttribute('tabindex', '0');
+      slotBtn.classList.remove('active');
+      slotBtn.setAttribute('aria-selected', 'false');
+      slotBtn.setAttribute('tabindex', '-1');
+      slotContainer.style.display = 'none';
+      minesContainer.style.display = 'flex';
+    });
+
+    // Initialize
+    function init() {
+      updateBalance(1000);
+      buildUpgrades();
+      updateCPC();
+      updateRebirthButton();
+      updateSlotBet();
+      updateMinesBet();
+      resetMinesGrid();
+    }
+    init();
+
+  </script>
+</body>
+</html>
