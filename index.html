@@ -509,7 +509,7 @@
       <p>Earn coins by clicking, gamble them, upgrade your clicks, and rebirth to progress faster.</p>
       <hr />
       <p><strong>Rebirth</strong> lets you reset progress in exchange for doubling your coins per click permanently.</p>
-      <p>At 1 Billion coins, you can rebirth to double your coins per click permanently.</p>
+      <p>At 100 Billion coins, you can rebirth to double your coins per click permanently.</p>
       <p>Keep rebirthing to grow faster!</p>
     </section>
 
@@ -572,16 +572,16 @@
 
     // Upgrades data
     const upgradesData = [
-      { name: 'Small Tip', baseCost: 15, cost: 15, cpcIncrease: 1, level: 0 },
-      { name: 'Wallet Upgrade', baseCost: 60, cost: 60, cpcIncrease: 5, level: 0 },
-      { name: 'Coin Press', baseCost: 250, cost: 250, cpcIncrease: 15, level: 0 },
-      { name: 'Gold Miner', baseCost: 1200, cost: 1200, cpcIncrease: 50, level: 0 },
-      { name: 'Bank Vault', baseCost: 5000, cost: 5000, cpcIncrease: 120, level: 0 },
-      { name: 'Fortune Wheel', baseCost: 25000, cost: 25000, cpcIncrease: 400, level: 0 },
-      { name: 'Money Factory', baseCost: 150000, cost: 150000, cpcIncrease: 900, level: 0 },
+      { name: 'Small Tip', baseCost: 1500, cost: 1500, cpcIncrease: 100, level: 0 },
+      { name: 'Wallet Upgrade', baseCost: 5000, cost: 5000, cpcIncrease: 500, level: 0 },
+      { name: 'Coin Press', baseCost: 10000, cost: 10000, cpcIncrease: 500, level: 0 },
+      { name: 'Gold Miner', baseCost: 15000, cost: 15000, cpcIncrease: 500, level: 0 },
+      { name: 'Bank Vault', baseCost: 25000, cost: 5000, cpcIncrease: 120, level: 0 },
+      { name: 'Fortune Wheel', baseCost: 50000, cost: 25000, cpcIncrease: 400, level: 0 },
+      { name: 'Money Factory', baseCost: 100000, cost: 150000, cpcIncrease: 900, level: 0 },
       { name: 'Bitcoin Miner', baseCost: 800000, cost: 800000, cpcIncrease: 2500, level: 0 },
       { name: 'Diamond Mine', baseCost: 5000000, cost: 5000000, cpcIncrease: 8000, level: 0 },
-      { name: 'Rebirth Lab', baseCost: 1000000000, cost: 1000000000, cpcIncrease: 0, level: 0, special:true }
+      { name: 'Rebirth Lab', baseCost: 100000000000, cost: 1000000000, cpcIncrease: 0, level: 0, special:true }
     ];
 
     // Build upgrade buttons
@@ -766,7 +766,7 @@
     // 3x 🍉 = 10x bet
     // 3x 🍋 = 5x bet
     // 3x 🍒 = 3x bet
-    // 2x any symbol = 0.5x bet
+    // 2x any symbol = 2x bet
     // else 0
     function calculateSlotPayout(results, bet) {
       const [a,b,c] = results;
