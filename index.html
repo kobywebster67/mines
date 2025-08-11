@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Make Money Co</title>
-  
+  <title>Make Money Co — Account Fixed</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
-  
+
   <style>
     :root {
       --bg: #0f1720;
@@ -21,9 +21,8 @@
       --font-primary: 'Poppins', system-ui, Segoe UI, Roboto, Arial, sans-serif;
       --font-display: 'Bungee', cursive;
     }
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
+    html,body { height:100%; }
     body {
       margin: 0;
       min-height: 100vh;
@@ -65,382 +64,111 @@
       font-size: 1.1rem;
       user-select: none;
     }
-    .balance span {
-      font-weight: 700;
-      font-size: 1.5rem;
-      display: block;
-      margin-top: 4px;
-    }
-    
+    .balance span { font-weight:700; font-size:1.5rem; display:block; margin-top:4px; }
+
     /* Tabs */
-    nav.tabs {
-      display: flex;
-      gap: 6px;
-      border-bottom: 1.5px solid rgba(255,255,255,0.1);
-    }
+    nav.tabs { display:flex; gap:6px; border-bottom:1.5px solid rgba(255,255,255,0.1); }
     nav.tabs button {
-      flex: 1;
-      background: var(--btn-bg);
-      border: none;
-      padding: 10px 0;
-      font-weight: 600;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-size: 0.9rem;
-      border-radius: 8px 8px 0 0;
-      transition: background-color 0.3s, color 0.3s;
-      user-select: none;
+      flex:1; background:var(--btn-bg); border:none; padding:10px 0;
+      font-weight:600; color:var(--text-muted); cursor:pointer; font-size:0.9rem;
+      border-radius:8px 8px 0 0; transition: background-color 0.3s, color 0.3s; user-select:none;
     }
-    nav.tabs button.active {
-      background: var(--accent);
-      color: #081219;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-      border-bottom: none;
-    }
-    
+    nav.tabs button.active { background:var(--accent); color:#081219; box-shadow:0 6px 20px rgba(0,0,0,0.4); border-bottom:none; }
+
     /* Sections */
-    section {
-      display: none;
-      flex-direction: column;
-      gap: 12px;
-    }
-    section.active {
-      display: flex;
-    }
-    
-    /* Clicker Section */
-    #clicker-section {
-      text-align: center;
-    }
+    section { display:none; flex-direction:column; gap:12px; }
+    section.active { display:flex; }
+
+    /* Clicker */
+    #clicker-section { text-align:center; }
     #money-bag {
-      margin: 20px auto 16px;
-      width: 140px;
-      height: 140px;
-      background: linear-gradient(145deg, #3a3a3a, #252525);
-      border-radius: 50%;
-      box-shadow: inset 0 6px 15px #ffcf52, 0 4px 15px rgba(255, 208, 0, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 70px;
-      color: #ffcf52;
-      cursor: pointer;
-      position: relative;
-      user-select: none;
+      margin: 20px auto 16px; width:140px; height:140px; background:linear-gradient(145deg,#3a3a3a,#252525);
+      border-radius:50%; box-shadow: inset 0 6px 15px #ffcf52, 0 4px 15px rgba(255,208,0,0.5);
+      display:flex; align-items:center; justify-content:center; font-size:70px; color:#ffcf52; cursor:pointer;
+      position:relative; user-select:none;
     }
-    #money-bag:hover {
-      box-shadow: inset 0 6px 18px #ffd64d, 0 6px 24px rgba(255, 215, 0, 0.8);
-      transform: scale(1.05);
-      transition: 0.15s ease;
-    }
-    
-    #coins-info {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-    #cpc-info {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-bottom: 16px;
-    }
-    
-    #upgrades {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      max-height: 260px;
-      overflow-y: auto;
-      padding-right: 6px;
-    }
-    .upgrade {
-      background: var(--btn-bg);
-      border-radius: 10px;
-      padding: 10px 14px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      user-select: none;
-    }
-    .upgrade:hover:not(.disabled) {
-      background: var(--btn-hover);
-    }
-    .upgrade.disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    .upgrade-name {
-      font-weight: 700;
-      font-size: 0.95rem;
-    }
-    .upgrade-info {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-left: 8px;
-      flex-grow: 1;
-      text-align: center;
-    }
-    .upgrade-cost {
-      font-weight: 700;
-      min-width: 70px;
-      text-align: right;
-      font-size: 0.9rem;
-      color: var(--accent);
-    }
-    
-    #rebirth-btn {
-      margin-top: 14px;
-      padding: 10px 18px;
-      font-weight: 700;
-      font-size: 1rem;
-      background: linear-gradient(180deg, var(--green-1), var(--green-2));
-      border: none;
-      border-radius: 10px;
-      color: white;
-      cursor: pointer;
-      user-select: none;
-      transition: filter 0.2s;
-    }
-    #rebirth-btn:disabled {
-      filter: grayscale(70%);
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
-    
-    /* Gambling Section */
-    #gambling-section {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .gambling-tabs {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      margin-bottom: 12px;
-    }
-    .gambling-tabs button {
-      flex: 1;
-      background: var(--btn-bg);
-      border: none;
-      padding: 8px 0;
-      font-weight: 600;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-size: 0.9rem;
-      border-radius: 10px;
-      user-select: none;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    .gambling-tabs button.active {
-      background: var(--accent);
-      color: #081219;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-    }
-    
-    /* Slot Machine */
-    #slot-machine-container {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      text-align: center;
-    }
-    #slot-reels {
-      font-size: 50px;
-      letter-spacing: 18px;
-      margin: 10px 0;
-      user-select: none;
-    }
-    #slot-reward {
-      font-weight: 700;
-      font-size: 1.1rem;
-      min-height: 30px;
-      color: var(--accent);
-      user-select: none;
-    }
-    #slot-bet {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      background: var(--btn-bg);
-      color: var(--text-light);
-      font-size: 1rem;
-      margin-bottom: 10px;
-      text-align: center;
-      user-select: none;
-    }
-    #slot-spin-btn {
-      padding: 12px;
-      font-weight: 700;
-      background: linear-gradient(180deg, var(--green-1), var(--green-2));
-      border: none;
-      border-radius: 10px;
-      color: white;
-      cursor: pointer;
-      user-select: none;
-      transition: filter 0.2s;
-    }
-    #slot-spin-btn:disabled {
-      filter: grayscale(70%);
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
-    
-    /* Mines Gem Game */
-    #mines-container {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      user-select: none;
-    }
-    #mines-controls {
-      display: flex;
-      gap: 8px;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    #mines-bet {
-      flex: 1;
-      padding: 8px;
-      border-radius: 8px;
-      border: none;
-      background: var(--btn-bg);
-      color: var(--text-light);
-      font-size: 1rem;
-      text-align: center;
-    }
-    #mines-mode {
-      flex: 1;
-      padding: 8px;
-      border-radius: 8px;
-      border: none;
-      background: var(--btn-bg);
-      color: var(--text-light);
-      font-size: 1rem;
-      user-select: none;
-    }
-    #mines-start-btn, #mines-cashout-btn {
-      flex: 1;
-      padding: 10px;
-      border-radius: 10px;
-      border: none;
-      font-weight: 700;
-      font-size: 1rem;
-      color: white;
-      cursor: pointer;
-      user-select: none;
-      transition: filter 0.2s;
-    }
-    #mines-start-btn {
-      background: linear-gradient(180deg, var(--green-1), var(--green-2));
-    }
-    #mines-cashout-btn {
-      background: #555;
-    }
-    #mines-start-btn:disabled,
-    #mines-cashout-btn:disabled {
-      filter: grayscale(70%);
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
-    
-    #mines-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 50px);
-      grid-gap: 8px;
-      justify-content: center;
-    }
-    .mines-cell {
-      width: 50px;
-      height: 50px;
-      background: var(--btn-bg);
-      border-radius: 8px;
-      font-size: 28px;
-      color: var(--text-light);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      user-select: none;
-      transition: background-color 0.3s;
-      border: 2px solid transparent;
-      font-weight: 700;
-    }
-    .mines-cell:hover:not(.revealed) {
-      background: var(--btn-hover);
-    }
-    .mines-cell.revealed.gem {
-      background: #ffd43b;
-      color: #3a2e00;
-      cursor: default;
-    }
-    .mines-cell.revealed.bomb {
-      background: #ff5050;
-      color: #400000;
-      cursor: default;
-    }
-    
-    #mines-stats {
-      font-size: 0.9rem;
-      text-align: center;
-      color: var(--text-muted);
-      user-select: none;
-      margin-top: 6px;
-    }
-    #mines-stats span {
-      font-weight: 600;
-      color: var(--accent);
-    }
-    
+    #money-bag:hover { box-shadow: inset 0 6px 18px #ffd64d, 0 6px 24px rgba(255,215,0,0.8); transform:scale(1.05); transition:0.15s ease; }
+
+    #coins-info { font-size:1.1rem; font-weight:600; margin-bottom:6px; }
+    #cpc-info { color:var(--text-muted); font-size:0.9rem; margin-bottom:16px; }
+
+    #upgrades { display:flex; flex-direction:column; gap:8px; max-height:260px; overflow-y:auto; padding-right:6px; }
+    .upgrade { background:var(--btn-bg); border-radius:10px; padding:10px 14px; cursor:pointer; transition:background-color 0.3s; display:flex; justify-content:space-between; align-items:center; user-select:none; }
+    .upgrade:hover:not(.disabled) { background:var(--btn-hover); }
+    .upgrade.disabled { opacity:0.5; cursor:not-allowed; }
+    .upgrade-name { font-weight:700; font-size:0.95rem; }
+    .upgrade-info { font-size:0.8rem; color:var(--text-muted); margin-left:8px; flex-grow:1; text-align:center; }
+    .upgrade-cost { font-weight:700; min-width:70px; text-align:right; font-size:0.9rem; color:var(--accent); }
+
+    #rebirth-btn { margin-top:14px; padding:10px 18px; font-weight:700; font-size:1rem; background:linear-gradient(180deg,var(--green-1),var(--green-2)); border:none; border-radius:10px; color:white; cursor:pointer; user-select:none; transition:filter 0.2s; }
+    #rebirth-btn:disabled { filter:grayscale(70%); cursor:not-allowed; opacity:0.6; }
+
+    /* Gambling */
+    #gambling-section { display:flex; flex-direction:column; gap:12px; }
+    .gambling-tabs { display:flex; gap:10px; justify-content:center; margin-bottom:12px; }
+    .gambling-tabs button { flex:1; background:var(--btn-bg); border:none; padding:8px 0; font-weight:600; color:var(--text-muted); cursor:pointer; font-size:0.9rem; border-radius:10px; user-select:none; transition:background-color 0.3s, color 0.3s; }
+    .gambling-tabs button.active { background:var(--accent); color:#081219; box-shadow:0 6px 20px rgba(0,0,0,0.4); }
+
+    /* Slot */
+    #slot-machine-container { display:flex; flex-direction:column; gap:10px; text-align:center; }
+    #slot-reels { font-size:50px; letter-spacing:18px; margin:10px 0; user-select:none; }
+    #slot-reward { font-weight:700; font-size:1.1rem; min-height:30px; color:var(--accent); user-select:none; }
+    #slot-bet { width:100%; padding:10px; border-radius:8px; border:none; background:var(--btn-bg); color:var(--text-light); font-size:1rem; margin-bottom:10px; text-align:center; user-select:none; }
+    #slot-spin-btn { padding:12px; font-weight:700; background:linear-gradient(180deg,var(--green-1),var(--green-2)); border:none; border-radius:10px; color:white; cursor:pointer; user-select:none; transition:filter 0.2s; }
+    #slot-spin-btn:disabled { filter:grayscale(70%); cursor:not-allowed; opacity:0.6; }
+
+    /* Mines */
+    #mines-container { display:flex; flex-direction:column; gap:10px; user-select:none; }
+    #mines-controls { display:flex; gap:8px; justify-content:space-between; align-items:center; margin-bottom:10px; }
+    #mines-bet { flex:1; padding:8px; border-radius:8px; border:none; background:var(--btn-bg); color:var(--text-light); font-size:1rem; text-align:center; }
+    #mines-mode { flex:1; padding:8px; border-radius:8px; border:none; background:var(--btn-bg); color:var(--text-light); font-size:1rem; user-select:none; }
+    #mines-start-btn, #mines-cashout-btn { flex:1; padding:10px; border-radius:10px; border:none; font-weight:700; font-size:1rem; color:white; cursor:pointer; user-select:none; transition:filter 0.2s; }
+    #mines-start-btn { background:linear-gradient(180deg,var(--green-1),var(--green-2)); }
+    #mines-cashout-btn { background:#555; }
+    #mines-start-btn:disabled, #mines-cashout-btn:disabled { filter:grayscale(70%); cursor:not-allowed; opacity:0.6; }
+
+    #mines-grid { display:grid; grid-template-columns:repeat(5,50px); grid-gap:8px; justify-content:center; }
+    .mines-cell { width:50px; height:50px; background:var(--btn-bg); border-radius:8px; font-size:28px; color:var(--text-light); cursor:pointer; display:flex; align-items:center; justify-content:center; user-select:none; transition:background-color 0.3s; border:2px solid transparent; font-weight:700; }
+    .mines-cell:hover:not(.revealed) { background:var(--btn-hover); }
+    .mines-cell.revealed.gem { background:#ffd43b; color:#3a2e00; cursor:default; }
+    .mines-cell.revealed.bomb { background:#ff5050; color:#400000; cursor:default; }
+
+    #mines-stats { font-size:0.9rem; text-align:center; color:var(--text-muted); user-select:none; margin-top:6px; }
+    #mines-stats span { font-weight:600; color:var(--accent); }
+
+    /* Account Section - replaced with tabbed login/register UI */
+    #account-section { color:var(--text-muted); gap:8px; display:flex; flex-direction:column; }
+    .account-panel { background:rgba(255,255,255,0.02); border-radius:10px; padding:10px; display:flex; flex-direction:column; gap:8px; }
+    .account-row { display:flex; gap:8px; align-items:center; }
+    .account-input { flex:1; padding:8px; border-radius:8px; border:none; background:var(--btn-bg); color:var(--text-light); }
+    .account-btn { padding:8px 10px; border-radius:8px; border:none; background:var(--accent); color:#081219; font-weight:700; cursor:pointer; }
+    .account-small { font-size:0.85rem; color:var(--text-muted); }
+
+    /* internal account tabs */
+    .acct-tabs { display:flex; gap:8px; margin-bottom:6px; }
+    .acct-tab { flex:1; background:var(--btn-bg); border:none; padding:8px; color:var(--text-muted); border-radius:8px; cursor:pointer; font-weight:700; }
+    .acct-tab.active { background:var(--accent); color:#081219; }
+
+    .acct-form { display:flex; flex-direction:column; gap:8px; }
+    .acct-form.hidden { display:none; }
+
     /* Toast */
-    #toast {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: rgba(0,0,0,0.75);
-      color: white;
-      padding: 10px 14px;
-      border-radius: 10px;
-      font-weight: 700;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(-20px);
-      transition: opacity 0.3s, transform 0.3s;
-      z-index: 9999;
-      user-select: none;
-    }
-    #toast.show {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
-    }
-    
+    #toast { position:fixed; top:20px; right:20px; background:rgba(0,0,0,0.75); color:white; padding:10px 14px; border-radius:10px; font-weight:700; opacity:0; pointer-events:none; transform:translateY(-20px); transition:opacity 0.3s, transform 0.3s; z-index:9999; user-select:none; }
+    #toast.show { opacity:1; pointer-events:auto; transform:translateY(0); }
+
     /* Scrollbar for upgrades */
-    #upgrades::-webkit-scrollbar {
-      width: 8px;
-    }
-    #upgrades::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    #upgrades::-webkit-scrollbar-thumb {
-      background: var(--accent);
-      border-radius: 4px;
-    }
+    #upgrades::-webkit-scrollbar { width:8px; }
+    #upgrades::-webkit-scrollbar-track { background:transparent; }
+    #upgrades::-webkit-scrollbar-thumb { background:var(--accent); border-radius:4px; }
 
     /* Fine print */
-    #footer {
-      text-align: right;
-      font-size: 10px;
-      color: var(--text-muted);
-      user-select: none;
-      margin-top: 6px;
-      font-style: italic;
-    }
+    #footer { text-align:right; font-size:10px; color:var(--text-muted); user-select:none; margin-top:6px; font-style:italic; }
 
+    @media (max-width:480px) {
+      .container { width: 96vw; padding:14px; }
+      #money-bag { width:120px; height:120px; font-size:60px; }
+      #slot-reels { font-size:40px; letter-spacing:14px; }
+    }
   </style>
 </head>
 <body>
@@ -457,6 +185,7 @@
       <button role="tab" aria-selected="true" aria-controls="clicker-section" id="tab-clicker" class="active">Clicker</button>
       <button role="tab" aria-selected="false" aria-controls="gambling-section" id="tab-gambling">Gambling</button>
       <button role="tab" aria-selected="false" aria-controls="info-section" id="tab-info">Info</button>
+      <button role="tab" aria-selected="false" aria-controls="account-section" id="tab-account">Account</button>
     </nav>
 
     <!-- CLICKER SECTION -->
@@ -513,11 +242,52 @@
       <p>Keep rebirthing to grow faster!</p>
     </section>
 
+    <!-- ACCOUNT SECTION -->
+    <section id="account-section" role="tabpanel" aria-labelledby="tab-account" aria-hidden="true" style="display:none;">
+      <div class="account-panel" role="region" aria-label="Account panel">
+
+        <div class="acct-tabs">
+          <button id="acct-tab-login" class="acct-tab active" type="button">Login</button>
+          <button id="acct-tab-register" class="acct-tab" type="button">Register</button>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <form id="acct-login-form" class="acct-form" onsubmit="return false;">
+          <input id="login-username" class="account-input" placeholder="Username" aria-label="login username" autocomplete="username" />
+          <input id="login-password" type="password" class="account-input" placeholder="Password" aria-label="login password" autocomplete="current-password" />
+          <div class="account-row">
+            <button id="acct-login-btn" class="account-btn" type="button">Login</button>
+          </div>
+        </form>
+
+        <!-- REGISTER FORM -->
+        <form id="acct-register-form" class="acct-form hidden" onsubmit="return false;">
+          <input id="reg-username" class="account-input" placeholder="Choose a username" aria-label="register username" autocomplete="username" />
+          <input id="reg-password" type="password" class="account-input" placeholder="Choose a password" aria-label="register password" autocomplete="new-password" />
+          <input id="reg-password-confirm" type="password" class="account-input" placeholder="Confirm password" aria-label="confirm password" autocomplete="new-password" />
+          <div class="account-row">
+            <button id="acct-register-btn" class="account-btn" type="button">Create Account</button>
+          </div>
+        </form>
+
+        <div class="account-row">
+          <button id="acct-manual-save" class="account-btn" style="flex:1;">Manual Save</button>
+        </div>
+
+        <div class="account-row account-small" id="acct-status">Not logged in</div>
+        <div class="account-row account-small">Auto-save: every 60s (saved to localStorage)</div>
+      </div>
+    </section>
+
     <div id="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
     <div id="footer">Made By Koby Webster</div>
   </div>
 
   <script>
+    // ===========================
+    // Full game code (unchanged logic) + improved account UI handlers
+    // ===========================
+
     // === Shared bank and utility ===
     let balance = 0;
     const balanceEl = document.getElementById('balance');
@@ -549,15 +319,27 @@
         tabs.forEach(t => {
           t.classList.remove('active');
           t.setAttribute('aria-selected', 'false');
-          document.getElementById(t.getAttribute('aria-controls')).setAttribute('aria-hidden', 'true');
+          const ctrl = t.getAttribute('aria-controls');
+          if(ctrl) {
+            const el = document.getElementById(ctrl);
+            if(el) {
+              el.setAttribute('aria-hidden', 'true');
+              el.classList.remove('active');
+              el.style.display = 'none';
+            }
+          }
         });
         tab.classList.add('active');
         tab.setAttribute('aria-selected', 'true');
-        document.getElementById(tab.getAttribute('aria-controls')).setAttribute('aria-hidden', 'false');
-        document.getElementById(tab.getAttribute('aria-controls')).classList.add('active');
-        sections.forEach(s => {
-          if(s.id !== tab.getAttribute('aria-controls')) s.classList.remove('active');
-        });
+        const target = tab.getAttribute('aria-controls');
+        if(target) {
+          const sec = document.getElementById(target);
+          if(sec) {
+            sec.setAttribute('aria-hidden', 'false');
+            sec.classList.add('active');
+            sec.style.display = '';
+          }
+        }
       });
     });
 
@@ -640,7 +422,6 @@
       balance -= upg.cost;
       updateBalance(0);
       coinsPerClick += upg.cpcIncrease;
-      // coins += 0; // no longer tracked separately
       upg.level++;
       upg.cost = Math.floor(upg.baseCost * Math.pow(1.7, upg.level));
       showToast(`${upg.name} upgraded to level ${upg.level}`);
@@ -759,15 +540,7 @@
       }, 50);
     });
 
-    // Simple payout rules:
-    // 3x 7️⃣ = 100x bet
-    // 3x 💎 = 50x bet
-    // 3x ⭐ = 25x bet
-    // 3x 🍉 = 10x bet
-    // 3x 🍋 = 5x bet
-    // 3x 🍒 = 3x bet
-    // 2x any symbol = 2x bet
-    // else 0
+    // Slot payout rules
     function calculateSlotPayout(results, bet) {
       const [a,b,c] = results;
       if(a === b && b === c) {
@@ -801,7 +574,7 @@
     let minesBet = 10;
     let minesGameOver = true;
     let minesMultipliers = [];
-    
+
     const minesMultipliersMap = {
       1: [1.1,1.2,1.3,1.5,1.7,1.9,2.1,2.3,2.6,3,3.3,3.7,4.2,4.8,5.5,6.3,7.2,8.2,9.3,10.5],
       2: [1.3,1.5,1.7,1.9,2.2,2.5,3,3.5,4,4.5,5,5.7,6.5,7.5,8.5,9.7,11,12.5,14,16],
@@ -960,7 +733,237 @@
       minesContainer.style.display = 'flex';
     });
 
-    // Initialize
+    // === Account & local save (fixed UI + handlers) ===
+
+    // DOM references for account UI
+    const acctTabLogin = document.getElementById('acct-tab-login');
+    const acctTabRegister = document.getElementById('acct-tab-register');
+    const acctLoginForm = document.getElementById('acct-login-form');
+    const acctRegisterForm = document.getElementById('acct-register-form');
+
+    const loginUsername = document.getElementById('login-username');
+    const loginPassword = document.getElementById('login-password');
+    const loginBtn = document.getElementById('acct-login-btn');
+
+    const regUsername = document.getElementById('reg-username');
+    const regPassword = document.getElementById('reg-password');
+    const regPasswordConfirm = document.getElementById('reg-password-confirm');
+    const regBtn = document.getElementById('acct-register-btn');
+
+    const manualSaveBtn = document.getElementById('acct-manual-save');
+    const acctStatusEl = document.getElementById('acct-status');
+
+    // current logged in user (lowercase) or null
+    let currentAccount = null;
+
+    // tab switching inside account panel
+    acctTabLogin.addEventListener('click', () => {
+      acctTabLogin.classList.add('active');
+      acctTabRegister.classList.remove('active');
+      acctLoginForm.classList.remove('hidden');
+      acctRegisterForm.classList.add('hidden');
+    });
+    acctTabRegister.addEventListener('click', () => {
+      acctTabRegister.classList.add('active');
+      acctTabLogin.classList.remove('active');
+      acctRegisterForm.classList.remove('hidden');
+      acctLoginForm.classList.add('hidden');
+    });
+
+    // password hashing utilities (Web Crypto if available)
+    function generateSalt(len = 16) {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let s = '';
+      for(let i=0;i<len;i++) s += chars[Math.floor(Math.random()*chars.length)];
+      return s;
+    }
+    function bufToHex(buffer) {
+      const b = new Uint8Array(buffer);
+      let s = '';
+      for(let i=0;i<b.length;i++) s += b[i].toString(16).padStart(2,'0');
+      return s;
+    }
+    async function hashPassword(password, salt) {
+      const input = password + '||' + salt;
+      if(window.crypto && crypto.subtle && crypto.subtle.digest) {
+        const enc = new TextEncoder();
+        const data = enc.encode(input);
+        const digest = await crypto.subtle.digest('SHA-256', data);
+        return bufToHex(digest);
+      } else {
+        return btoa(input);
+      }
+    }
+
+    // local users stored as JSON under 'mmc_local_users'
+    function readUsers() {
+      try {
+        const raw = localStorage.getItem('mmc_local_users');
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) { return {}; }
+    }
+    function writeUsers(users) {
+      localStorage.setItem('mmc_local_users', JSON.stringify(users));
+    }
+
+    // Register handler
+    regBtn.addEventListener('click', async () => {
+      const u = String(regUsername.value || '').trim();
+      const p = String(regPassword.value || '');
+      const pc = String(regPasswordConfirm.value || '');
+      if(!u || !p || !pc) { showToast('Fill all fields'); return; }
+      if(u.length < 2) { showToast('Username too short'); return; }
+      if(p.length < 4) { showToast('Password too short (min 4)'); return; }
+      if(p !== pc) { showToast('Passwords do not match'); return; }
+
+      try {
+        const users = readUsers();
+        const uname = u.toLowerCase();
+        if(users[uname]) { showToast('Username already exists'); return; }
+        const salt = generateSalt(16);
+        const hash = await hashPassword(p, salt);
+        users[uname] = { salt, hash, createdAt: Date.now() };
+        writeUsers(users);
+        currentAccount = uname;
+        acctStatusEl.textContent = `Logged in as ${currentAccount}`;
+        // try to load existing save (if any)
+        if(loadLocal()) showToast('Account created — save loaded');
+        else showToast('Account created');
+        // clear register fields for privacy
+        regPassword.value = regPasswordConfirm.value = '';
+      } catch (err) {
+        console.error(err);
+        showToast('Register error: ' + (err.message || err));
+      }
+    });
+
+    // Login handler
+    loginBtn.addEventListener('click', async () => {
+      const u = String(loginUsername.value || '').trim();
+      const p = String(loginPassword.value || '');
+      if(!u || !p) { showToast('Fill username and password'); return; }
+      try {
+        const users = readUsers();
+        const uname = u.toLowerCase();
+        const rec = users[uname];
+        if(!rec) { showToast('Invalid username or password'); return; }
+        const candidate = await hashPassword(p, rec.salt);
+        if(candidate !== rec.hash) { showToast('Invalid username or password'); return; }
+        currentAccount = uname;
+        acctStatusEl.textContent = `Logged in as ${currentAccount}`;
+        if(loadLocal()) showToast('Logged in — save loaded');
+        else showToast('Logged in (no save found)');
+        // clear login fields for privacy
+        loginPassword.value = '';
+      } catch (err) {
+        console.error(err);
+        showToast('Login error: ' + (err.message || err));
+      }
+    });
+
+    // Save/load helpers (localStorage)
+    function buildSavePayload() {
+      return {
+        balance,
+        coins,
+        coinsPerClick,
+        upgrades: upgradesData.map(u => ({ name: u.name, level: u.level, cost: u.cost })),
+        mines: { gemsFound, minesBet, minesGameOver },
+        timestamp: Date.now()
+      };
+    }
+    async function saveLocal(userInitiated=false) {
+      try {
+        const payload = buildSavePayload();
+        const key = currentAccount ? `mmc_save_${currentAccount}` : 'mmc_save_guest';
+        localStorage.setItem(key, JSON.stringify({ savedAt: Date.now(), save: payload }));
+        if(userInitiated) showToast(currentAccount ? 'Saved (local)' : 'Saved (guest)');
+        return true;
+      } catch (err) {
+        console.error('saveLocal', err);
+        if(userInitiated) showToast('Save failed: ' + err.message);
+        return false;
+      }
+    }
+    function loadLocal() {
+      try {
+        const key = currentAccount ? `mmc_save_${currentAccount}` : 'mmc_save_guest';
+        const raw = localStorage.getItem(key);
+        if(!raw) return false;
+        const parsed = JSON.parse(raw);
+        if(parsed && parsed.save) {
+          applySavePayload(parsed.save);
+          return true;
+        }
+        return false;
+      } catch (err) {
+        console.error('loadLocal', err);
+        return false;
+      }
+    }
+    function applySavePayload(payload) {
+      try {
+        if(typeof payload.balance === 'number') balance = payload.balance;
+        if(typeof payload.coins === 'number') coins = payload.coins;
+        if(typeof payload.coinsPerClick === 'number') coinsPerClick = payload.coinsPerClick;
+        if(Array.isArray(payload.upgrades)) {
+          payload.upgrades.forEach(sv => {
+            const upg = upgradesData.find(u => u.name === sv.name);
+            if(upg) {
+              upg.level = sv.level || 0;
+              upg.cost = sv.cost || upg.baseCost;
+            }
+          });
+        }
+        if(payload.mines) {
+          gemsFound = payload.mines.gemsFound || 0;
+          minesBet = payload.mines.minesBet || minesBet;
+          minesGameOver = payload.mines.minesGameOver !== undefined ? payload.mines.minesGameOver : minesGameOver;
+        }
+        updateBalance(0);
+        coinsEl.textContent = coins.toFixed(2);
+        updateCPC();
+        buildUpgrades();
+        resetMinesGrid();
+      } catch (err) {
+        console.error('applySavePayload error', err);
+      }
+    }
+
+    // Manual save button
+    manualSaveBtn.addEventListener('click', async () => {
+      await saveLocal(true);
+    });
+
+    // auto-save every 60s
+    let autoSaveInterval = null;
+    function startAutoSaveTimer() {
+      if(autoSaveInterval) clearInterval(autoSaveInterval);
+      autoSaveInterval = setInterval(() => {
+        saveLocal(false);
+      }, 60_000);
+    }
+
+    // load guest save on startup
+    function tryLoadGuestSave() {
+      const raw = localStorage.getItem('mmc_save_guest');
+      if(raw) {
+        try {
+          const parsed = JSON.parse(raw);
+          if(parsed && parsed.save) {
+            applySavePayload(parsed.save);
+            showToast('Loaded guest save', 1000);
+          }
+        } catch (e) { /* ignore parse errors */ }
+      }
+    }
+
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      try { saveLocal(false); } catch (e) {}
+    });
+
+    // initialize
     function init() {
       updateBalance(0);
       buildUpgrades();
@@ -969,9 +972,15 @@
       updateSlotBet();
       updateMinesBet();
       resetMinesGrid();
+      startAutoSaveTimer();
+      tryLoadGuestSave();
     }
     init();
 
+    // Expose manualSave to window if you need it
+    window.manualSave = () => saveLocal(true);
+
+    // End of script
   </script>
 </body>
 </html>
